@@ -1,5 +1,6 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
-import { GetThread } from "../axios"
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { CreateThread, DeleteThread, GetThread } from "../axios"
+import { Thread } from "../objects";
 
 export const threads = () => {
     return useInfiniteQuery({
@@ -12,10 +13,27 @@ export const threads = () => {
         }
 });
 }
-  
-export const testaxios= () => {
-    return useQuery({
-        queryKey: ['lool'],
-        queryFn: GetThread
+
+export const createthread = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (thread:Thread) => CreateThread(thread),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['GetThread']
+            })
+        }
+    })
+}
+
+export const deleteThread = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id } : {id:number}) => DeleteThread({id}),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['GetThread']
+            })
+        }
     })
 }

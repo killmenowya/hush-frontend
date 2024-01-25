@@ -6,6 +6,7 @@
 
 import axios from "axios";
 import { Thread } from "./objects";
+import { notifyManager } from "@tanstack/react-query";
 
 // // thread
 // router.HandleFunc("/thread/", controllers.CreateThread).Methods("POST")
@@ -34,23 +35,31 @@ const API = axios.create({
 //===============================================================//
 // THREAD QUERY //
 //===============================================================//
-export const GetThread = async() => {
-    const response = await API.get("/thread/")
+export const GetThread = async({pageParam}: {pageParam:number}) => {
+    const response = await API.get(`/thread/?page=${pageParam}`)
     return response.data
 }
+
 
 export const CreateThread = async(thread: Thread) => {
     return await API.post("/thread/", thread)
 }
 
-export const DeleteThread = async({ id } : {id:number}) => {
+export const DeleteThread = async({id}:{id:number}) => {
     return await API.delete(`/thread/${id}`)
 }
 
 export const EditThread = async(thread: Thread, {id}:{id:number}) => {
-    return await API.patch(`/thread/${id}`, thread)
+    return await API.put(`/thread/${id}`, thread)
 }
 
+//===============================================================//
+// COMMENT QUERY //
+//===============================================================//
+
+//===============================================================//
+// TAG QUERY //
+//===============================================================//
 
 
 export default API

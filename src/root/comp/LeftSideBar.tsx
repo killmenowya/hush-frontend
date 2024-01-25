@@ -3,16 +3,18 @@ import TagIcon from '@mui/icons-material/Tag';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from "react-router-dom";
-import { GetThread } from "../../ReactQuery/axios";
+import { threads} from "../../ReactQuery/Queries/home-query";
 
-function foo () {
-  console.log("hello")
-  console.log(GetThread())
-}
+
 
 
 
 const LeftSideBar = () => {
+  const bar = threads()
+  function foo () {
+    console.log("hello")
+    console.log(bar.data)
+  }
   
   return (
     <Box flex={2} p={2} sx={{ display: { xs:"none", sm:"none", md:"block" } }}>
